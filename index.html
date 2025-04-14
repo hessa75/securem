@@ -330,7 +330,7 @@ div {
 
     // دالة التحقق من البريد الإلكتروني
     function validateEmail() {
-        const email = document.getElementById('email').value;
+        const email = document.getElementById('email').value.trim(); // إزالة المسافات الزائدة
         const message = document.getElementById('message');
 
         // تعريف تعبير منتظم للتحقق من صيغة البريد الإلكتروني
@@ -346,12 +346,18 @@ div {
         // استخراج النطاق من البريد الإلكتروني
         const domain = email.split('@')[1];
 
+        if (!domain) {
+            message.textContent = 'Invalid email domain.';
+            message.className = 'message invalid';
+            return;
+        }
+
         // التحقق من صحة النطاق
-        if (domain && validDomains.some(validDomain => domain.endsWith(validDomain))) {
-            message.textContent = 'The email is valid and belongs to a governmental entity.';
+        if (validDomains.some(validDomain => domain.endsWith(validDomain))) {
+            message.textContent = 'The email is valid and belongs to a governmental or educational entity.';
             message.className = 'message valid';
         } else {
-            message.textContent = 'The email is valid but does not belong to a governmental entity.';
+            message.textContent = 'The email is valid but does not belong to a governmental or educational entity.';
             message.className = 'message neutral';
         }
     }
@@ -367,7 +373,8 @@ div {
     }
 </script>
 
-    </script>
+
+  
 
     <div class="domain-extensions">
         <h3>Popular Domain Extensions and Their Meanings:</h3>
